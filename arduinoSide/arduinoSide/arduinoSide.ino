@@ -1,11 +1,13 @@
-//Variables
-
+//PIN VARIABLES - CHANGE THIS
 int red_light_pin= 9;
 int green_light_pin = 10;
 int blue_light_pin = 11;
+
+//Variables
 #define sensorPin A1
-float sensorValue = 0, filteredSignal = 0,
-    filteredSignalValues[] = {2.9, 2.7, 2.4, 2.1, 1.7, 1.3, 0.9, 0.2, 0.15};
+float sensorValue = 0; 
+float filteredSignal = 0;
+float filteredSignalValues[] = {2.9, 2.7, 2.4, 2.1, 1.7, 1.3, 0.9, 0.2, 0.15};
 bool soundReact = false;
 typedef struct
   {
@@ -14,18 +16,17 @@ typedef struct
       int short b;
   }  RGBtemplate;
 
-
-//Boje
-RGBtemplate colors[9] = { //Duzina liste //Boje stavljati po redu RGB spektruma zbog gradient funkcije // bijela - sve ostale (crvena do roza) - crna 
-  {255,255,255}, //bijela
-  {255, 0, 0}, //crvena
-  {255, 132, 0}, //narandz
-  {255, 247, 0}, //zuta
-  {81, 255, 0}, //zel
-  {0, 234, 255},//svijetlo plava
-  {0, 8, 255}, //tamno plava
-  {255, 0, 217}, //roza
-  {0,0,0}        //crna
+//Colors
+RGBtemplate colors[9] = {
+  {255,255,255}, //White
+  {255, 0, 0}, //Red
+  {255, 132, 0}, //Orange
+  {255, 247, 0}, //Yellow
+  {81, 255, 0}, //Green
+  {0, 234, 255},//Teal
+  {0, 8, 255}, //Blue
+  {255, 0, 217}, //Pink
+  {0,0,0}        //Black/Off
 };
 
 void RGB_color(int red_light_value, int green_light_value, int blue_light_value)
@@ -35,7 +36,6 @@ void RGB_color(int red_light_value, int green_light_value, int blue_light_value)
   analogWrite(blue_light_pin, blue_light_value);
 }
 
-//Pocetak
 void setup() {
   Serial.begin(9600);
   pinMode(red_light_pin, OUTPUT);
@@ -51,10 +51,9 @@ void loop() {
     int firstColorIndex = receivedData.substring(1,2).toInt();
     int lastColorIndex = receivedData.substring(2,3).toInt();
 
-    if (lightMode=="0"){  //Na osnovu dobijenih podataka bira jedan od nacina funkcionisanja trake
-      //mode 0 - staticna boja tj boja u tabeli s indexom firstcolorIndex
+    if (lightMode=="0"){                            //mode 0 - static color (indexed with firstColorIndex from colors array)
       RGB_color(colors[firstColorIndex].r, colors[firstColorIndex].g, colors[firstColorIndex].b); 
-    }else if(lightMode=="1"){   //mode 1 - gradient boja u tabeli od indexa firstcolorindex do lastcolorindex
+    }else if(lightMode=="1"){                       //mode 1 - gradient between colors indexed by firstcolorindex and lastcolorindex from colors array
         int maxI = max(firstColorIndex,lastColorIndex);
         int minI = min(firstColorIndex,lastColorIndex);
         
@@ -75,8 +74,6 @@ void loop() {
 
         while (Serial.available()==0){
           delay(25);
-          Serial.print("exec");
-          //ovdje output code sa rc, gc, bc vrijednostima
           
           if(rc==r1){rclimb=true;}else if(rc==r2){rclimb=false;}
           if(gc==g1){gclimb=true;}else if(gc==g2){gclimb=false;}
@@ -96,7 +93,7 @@ void loop() {
       }
       
       
-      }else if(lightMode=="2"){ //mode 2 - traka reaguje na zvuk
+      }else if(lightMode=="2"){                        //mode 2 - Changes colors based on sound intensity (if you have a microphone module attaached)
         if (soundReact==false){
           soundReact = true;
           while (Serial.available()==0){
@@ -109,33 +106,17 @@ void loop() {
   }
 }
 
-//Sensor za zvuk kod
+//Microphone module code
 void reactToSoundF() {
-
   sensorValue = (float) analogRead(sensorPin) * (5.0 / 1024.0);
 
-  FilterSignal(sensorValue);
+  filteredSignal = (0.945 * filteredSignal) + (0.0549 * sensorValue);
 
-  Serial.print(sensorValue);
-  Serial.print(" ");
-  Serial.println(filteredSignal);
-
-  CompareSignalFiltered(filteredSignal);
-}
-
-void FilterSignal(float sensorSignal) {
-
-  filteredSignal = (0.945 * filteredSignal) + (0.0549 * sensorSignal);
-}
-
-void CompareSignalFiltered(float filteredSignal) {
   if (filteredSignal <= filteredSignalValues[6] && filteredSignal > filteredSignalValues[8]) {
-    RGB_color(255, 127, 0);
-    //Serial.println("Orange");
+    RGB_color(colors[2].r, colors[2].g, colors[2].b); //Orange
   } else if (filteredSignal <= filteredSignalValues[7]){
-    RGB_color(255, 247, 0);
+    RGB_color(colors[3].r, colors[3].g, colors[3].b); //Yellow
   } else {
-    RGB_color(255, 0, 0);
-    //Red
+    RGB_color(colors[1].r, colors[1].g, colors[1].b); //Red
   }
 }
