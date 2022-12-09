@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB Lights Interface</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="interfaceS.js"></script>
+    <style>
+        html,body{
+            margin: 0px;
+            padding-bottom: 120px;
+            background-color: rgb(22, 22, 26);
+            color: #fffffe;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        section{
+            width: 80%;
+            padding: 50px;
+            height: auto;
+            margin: auto;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            border: solid 5px;
+            border-color: #292930;
+            border-radius: 25px;
+            box-shadow: 0px 10px 10px #00111C;
+        }
+
+        .modes{
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+
+        h1{
+            text-align: center;
+            margin-top: 5px;
+            font-size: 40px;
+            text-shadow: 5px 5px 5px black;
+            
+        }
+
+        button{
+            background-color: #292930;
+            color: #fffffe;
+            width: 30%;
+            height: 100px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+
+        #ukljuci{
+            background-color: #2cb67d;
+        }
+
+        #ukljuci:hover{
+            background-color: #7f5af0;
+            box-shadow: 5px 5px 8px black;
+        }
+
+        #ukljuci:active{
+            background-color: #0d3927;
+        }
+
+        button:hover{
+            background-color: #7f5af0;
+            box-shadow: 5px 5px 8px black;
+        }
+
+        button:active{
+            background-color: #00253E;
+            color: white;
+        }
+
+        button div{
+            position: absolute;
+            width: 5%;
+            height: 30px;
+            background: white;
+            border-radius: 3px;
+            border-style: none;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <section id="0">
+        <h1>Statične boje</h1>
+        <div class="modes">
+            <button name="0" onclick="relayInfo(this);">Bijela <div></div></button>
+            <button name="1" onclick="relayInfo(this);">Crvena <div style="background-color: rgb(255, 0, 0);"></div></button>
+            <button name="2" onclick="relayInfo(this);">Narandžasta <div style="background-color: rgb(255, 132, 0);"></div></button>
+            <button name="3" onclick="relayInfo(this);">Žuta <div style="background-color: rgb(255, 247, 0);"></div></button>
+            <button name="4" onclick="relayInfo(this);">Zelena <div style="background-color: rgb(81, 255, 0);"></div></button>
+            <button name="5" onclick="relayInfo(this);">Svijetlo Plava <div style="background-color: rgb(0, 234, 255);"></div></button>
+            <button name="6" onclick="relayInfo(this);">Tamno Plava <div style="background-color: rgb(0, 8, 255);"></div></button>
+            <button name="7" onclick="relayInfo(this);">Roza <div style="background-color: rgb(255, 0, 217);"></div></button>
+            <button name="8" onclick="relayInfo(this);">Ugasi <div style="background-color: rgb(0,0,0);"></div></button>
+        </div>
+    </section>
+    
+    <section id="1">
+        <h1>Prelazi</h1>
+        <div class="modes">
+            <button name="25" onclick="relayInfo(this);">Narandžasta/Sv. Plava <div style="background-image: linear-gradient(to right, rgb(255, 132, 0), rgb(0, 234, 255));"></div></button>
+            <button name="13" onclick="relayInfo(this);">Crvena/Žuta <div style="background-image: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 247, 0));"></div></button>
+            <button name="08" onclick="relayInfo(this);">Cijeli Spektrum <div style="background-image: linear-gradient(to right, white, black);"></div></button>
+        </div>
+    </section>
+
+    <section id="2">
+        <h1>Reaguje na zvuk</h1>
+        <div class="modes">
+            <button id="ukljuci" name="" onclick="relayInfo(this);">Uključi</button>
+            <button name="" onclick="relayInfo(this);">Isključi</button>
+        </div>
+    </section>
+
+    <script>
+        var socket = io();
+        
+
+        function relayInfo(element){
+            console.log((element.parentNode.parentNode.id + element.name));
+            socket.emit("rgbLights", {status:(element.parentNode.parentNode.id + element.name)});
+        }
+    </script>
+</body>
+</html>
