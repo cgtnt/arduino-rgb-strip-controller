@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="controller.js"></script>
+    <title>RGB - Menu</title>
+    <style>
+        html,body{
+            margin: 0px;
+            padding-bottom: 120px;
+            background-color: rgb(22, 22, 26);
+            color: #fffffe;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        section{
+            width: 40%;
+            padding: 50px;
+            height: auto;
+            margin: auto;
+            margin-top: 150px;
+            border: solid 5px;
+            border-color: #292930;
+            border-radius: 25px;
+        }
+
+        .modes{
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+
+        button{
+            background-color: #292930;
+            color: #fffffe;
+            width: 30%;
+            height: 100px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+
+        button:hover{
+            background-color: #7f5af0;
+            box-shadow: 5px 5px 8px black;
+        }
+
+        button:active{
+            background-color: #00253E;
+            color: white;
+        }
+
+        button div{
+            position: absolute;
+            width: 5%;
+            height: 30px;
+            background: white;
+            border-radius: 3px;
+            border-style: none;
+            margin: auto;
+        }
+
+        .iButton{
+            /*nesto idk*/
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <div class="modes">
+            <form>
+                <label for="port">Input USB Port:</label>
+                <input type="text" id="port" name="port">
+                <button onclick="relayCOMport(this)"> Send </button>
+                
+            </form>
+        </div>
+    </section>
+
+    <section>
+        <div class="modes">
+            <button onclick="" class="iButton">Controller</button>
+            <button onclick="" class="iButton">Editor</button>
+        </div>
+    </section>
+    
+</body>
+</html>
