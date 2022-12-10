@@ -4,121 +4,330 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RGB Lights Interface</title>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/frontend/controller.js"></script>
+    <title>Početna</title>
+    <link rel="icon" type="image/x-icon" href="logo-250.png">
+   
     <style>
-        html,body{
-            margin: 0px;
-            padding-bottom: 120px;
-            background-color: rgb(22, 22, 26);
-            color: #fffffe;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+        *{
+    margin: 0;
+    padding: 0;
+    font-family:  Helvetica;
+}
+body{
+    background-color: black;
+    color: white;
+    padding-bottom: 40px;
+}
+/*layout*/
+.container{
+    width: 85%;
+    margin: auto;
+    max-width: 1290px;
+    min-width: 360px;
+}
 
-        section{
-            width: 80%;
-            padding: 50px;
-            height: auto;
-            margin: auto;
-            margin-top: 50px;
-            margin-bottom: 50px;
-            border: solid 5px;
-            border-color: #292930;
-            border-radius: 25px;
-        }
 
-        .modes{
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
-        }
 
-        h1{
-            text-align: center;
-            margin-top: 5px;
-            font-size: 40px;
-            text-shadow: 5px 5px 5px black;
-            
-        }
 
-        button{
-            background-color: #292930;
-            color: #fffffe;
-            width: 30%;
-            height: 100px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 20px;
-        }
+/*design*/
+.staticne{
+    text-align: center;
+    margin: 0 5%;
+    margin-top: 40px;
+    border:2px solid #6c757d;
+    border-radius: 25px;
+    padding: 30px 0;
+}
+.prelazne{
+    text-align: center;
+    margin: 0 5%; 
+    margin-top: 50px;
+    border-radius: 25px;
+    padding: 30px 0;
+    border:2px solid #6c757d;
+}
 
-        #ukljuci{
-            background-color: #2cb67d;
-        }
+.color{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
 
-        #ukljuci:hover{
-            background-color: #7f5af0;
-            box-shadow: 5px 5px 8px black;
-        }
+}
+.zvuk{
+text-align: center;
+margin: 0 5%; 
+margin-top: 50px;
+border-radius: 25px;
+padding: 30px 0;
+border:2px solid #6c757d;
+}
 
-        #ukljuci:active{
-            background-color: #0d3927;
-        }
 
-        button:hover{
-            background-color: #7f5af0;
-            box-shadow: 5px 5px 8px black;
-        }
+button{
+    height: 100px;
+    width: 200px;
+    font-size: 1.5em;
+    background-color: transparent;
+    
+    color: white;
+    transition: border-color 0.5s, background-color 0.5s, color 0.5s;
+    cursor: pointer;
+    
+}
+/*boje*/
+ #bijela{
+    border:white 2px solid;
+}
+#bijela:hover, #bijela:active{
+    background-color: white;
+    color: black;
+}
+#crvena{
+    border:red 2px solid;
+}
+#crvena:hover, #crvena:active{
+    background-color: red;
+    color: white;
+}
+#narandzasta{
+    border:orange 2px solid;
+}
+#narandzasta:hover, #narandzasta:active{
+    background-color: orange;
+    color: white;
+}
+#zuta{
+    border:#ffdd00 2px solid;
+}
+#zuta:hover, #zuta:hover{
+    background-color: #ffdd00;
+    color: white;
+}
+#zelena{
+    border:green 2px solid;
+}
+#zelena:hover, #zelena:active{
+    background-color: green;
+    color: white;
+}
+#svijetlop{
+    border:#00b4d8 2px solid;
+    
+}
+#svijetlop:hover, #svijetlop:active{
+    background-color: #00b4d8;
+    color: white;
+}
+#tamnop{
+    border:#03045e 3px solid;
+}
+#tamnop:hover, #tamnop:active{
+    background-color: #03045e;
+    color: white;
+}
+#roze{
+    border:#ff69eb 2px solid;
+}
+#roze:hover, #roze:active{
+    background-color: #ff69eb;
+    color: white;
+}
+.gradient-blue{
+ background: linear-gradient(to right, orange, #00b4d8);
+ height: 100px;
+ width: 200px;
+ padding: 2px;
 
-        button:active{
-            background-color: #00253E;
-            color: white;
-        }
+}
+#narandzaplava{
+    border: transparent;
+    background: black;
+  
+}
+#narandzaplava:hover, #narandzaplava:active{   
+    background: linear-gradient(to right, orange, #00b4d8);  
+}
+.gradient-red{
+    background: linear-gradient(to right, #d00000, #ffc300);
+    height: 100px;
+    width: 200px;
+    padding: 2px;
+   
+}
+#crvenazuta{
+    border: transparent;
+    background: black;
+    
+}
+#crvenazuta:hover, #crvenazuta:active{
+    background: linear-gradient(to right, #d00000, #ffee32);  
+}
+.gradient-all{
+    background: linear-gradient(to left, #d00000, #00b4d8 , orange , green );
+    height: 100px;
+    width: 200px;
+    padding: 2px;
+}
+#cijelis{
+    border: transparent;
+    background: black;
+    
+}
+#cijelis:hover, #cijelis:active{
+    background: linear-gradient(to left, #d00000, #00b4d8 , orange , green );
+}
+ #ukljuci{
+    background-color: #2cb67d;
+    width: 250px;
+    border: white;
+    color:white;
+    margin-top: 40px;
+    
+}
+#ukljuci:hover{
+   opacity: 90%;
+}
 
-        button div{
-            position: absolute;
-            width: 5%;
-            height: 30px;
-            background: white;
-            border-radius: 3px;
-            border-style: none;
-            margin: auto;
-        }
-    </style>
+#off{
+    border: 2px solid white;
+}
+
+/*responsive*/
+@media (max-width:800px)  and (min-width:638px) {
+  .container{
+    width: 100%;
+  }
+  .staticne,
+  .prelazne, 
+  .zvuk{
+    margin: 40px 2%;
+  }
+}
+@media(max-width:638px){
+ 
+    .color{
+        flex-direction: column;
+        text-align: center;
+    }
+    .col{
+        margin-top: 20px;
+    }
+    button{
+        width: 100%;
+        height: 150px;
+    }
+
+    .gradient-all{
+        width: 100%;
+        height: 150px;
+    }
+    .gradient-red{
+        width: 100%;
+        height: 150px;
+    }
+    .gradient-blue{
+        width: 100%;
+        height: 150px;
+    }
+    .staticne{
+        border: none;
+        margin: 0 2%;
+        text-align: center;
+    }
+    .prelazne{
+        border: none;
+        margin: 0 2%;
+        
+    }
+    .zvuk{
+        border: none;
+        margin: 0 2%;
+    }
+    #ukljuci{
+        margin: 0;
+        margin-bottom: 20px;
+        
+    }
+}
+</style>
 </head>
 <body>
-    <section id="0">
-        <h1>Statične boje</h1>
-        <div class="modes">
-            <button name="0" onclick="relayInfo(this);">Bijela <div></div></button>
-            <button name="1" onclick="relayInfo(this);">Crvena <div style="background-color: rgb(255, 0, 0);"></div></button>
-            <button name="2" onclick="relayInfo(this);">Narandžasta <div style="background-color: rgb(255, 132, 0);"></div></button>
-            <button name="3" onclick="relayInfo(this);">Žuta <div style="background-color: rgb(255, 247, 0);"></div></button>
-            <button name="4" onclick="relayInfo(this);">Zelena <div style="background-color: rgb(81, 255, 0);"></div></button>
-            <button name="5" onclick="relayInfo(this);">Svijetlo Plava <div style="background-color: rgb(0, 234, 255);"></div></button>
-            <button name="6" onclick="relayInfo(this);">Tamno Plava <div style="background-color: rgb(0, 8, 255);"></div></button>
-            <button name="7" onclick="relayInfo(this);">Roza <div style="background-color: rgb(255, 0, 217);"></div></button>
-            <button name="8" onclick="relayInfo(this);">Ugasi <div style="background-color: rgb(0,0,0);"></div></button>
+    <div class="container">
+        <div class="staticne" id="0">
+            <h1>Statične boje</h1>
+            <div class="color">
+<div class="col">
+    <button name="0" id="bijela" onclick="relayInfo(this);">Bijela </button>
+</div>
+<div class="col">
+    <button name="1"  id="crvena" onclick="relayInfo(this);">Crvena </button>
+</div>
+<div class="col">
+    <button name="2" id="narandzasta" onclick="relayInfo(this);">Narandžasta</button>
+</div>
+</div>
+<div class="color">
+    <div class="col">
+        <button name="3" id="zuta" onclick="relayInfo(this);">Žuta</button>
+    </div>
+    <div class="col">
+        <button name="4" id="zelena" onclick="relayInfo(this);">Zelena</button>
+    </div>
+    <div class="col">
+        <button name="5" id="svijetlop" onclick="relayInfo(this);">Svijetlo Plava</button>
+    </div>
+    </div>
+    <div class="color">
+        <div class="col">
+            <button name="6" id="tamnop" onclick="relayInfo(this);">Tamno Plava</button>
         </div>
-    </section>
-    
-    <section id="1">
-        <h1>Prelazi</h1>
-        <div class="modes">
-            <button name="25" onclick="relayInfo(this);">Narandžasta/Sv. Plava <div style="background-image: linear-gradient(to right, rgb(255, 132, 0), rgb(0, 234, 255));"></div></button>
-            <button name="13" onclick="relayInfo(this);">Crvena/Žuta <div style="background-image: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 247, 0));"></div></button>
-            <button name="08" onclick="relayInfo(this);">Cijeli Spektrum <div style="background-image: linear-gradient(to right, white, black);"></div></button>
+        <div class="col">
+            <button name="7" id="roze" onclick="relayInfo(this);">Roze</button>
         </div>
-    </section>
+        <div class="col">
+            <button name="8" id="off" onclick="relayInfo(this);">Isključi</button>
+        </div>
 
-    <section id="2">
-        <h1>Reaguje na zvuk</h1>
-        <div class="modes">
-            <button id="ukljuci" name="" onclick="relayInfo(this);">Uključi</button>
+            </div>
+        
+
+    </div>
+    <div class="prelazne" id="1">
+        <h1>Prelazne boje</h1>
+<div class="color">
+    <div class="col">
+        <div class="gradient-blue">
+        <button name="25" id="narandzaplava" onclick="relayInfo(this);">Narandžasta/<br>Sv.Plava</button>
         </div>
-    </section>
+    </div>
+    <div class="col">
+        <div class="gradient-red">
+
+        
+        <button name="13" id="crvenazuta" onclick="relayInfo(this);">Crvena/Žuta </button>
+        </div>
+    </div>
+    <div class="col">
+        <div class="gradient-all">
+        <button name="08" id="cijelis" onclick="relayInfo(this);">Roze/bijela</button>
+       </div>
+    </div>
+</div>
+    </div>
+    <div class="zvuk" id="2">
+<h1>Reakcija na zvuk</h1>
+
+    <button id="ukljuci" name=""  onclick="relayInfo(this);">Uključi</button>
+    
+
+    </div>
+    <script>
+        var socket = io();
+
+        function relayInfo(element){
+            console.log((element.parentNode.parentNode.id + element.name));
+            socket.emit("rgbLights", {status:(element.parentNode.parentNode.id + element.name)});
+        }
+    </script>
 </body>
 </html>
