@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica;
+            
+        }
+        body{
+            background:black;
+            padding-top: 20px;
+        }
+        .editor{
+            
+           border: 2px solid #6c757d; 
+           width: 50%;
+           margin: auto;
+           padding: 20px 10px;
+           display: flex;
+           justify-content: space-around;
+           height: 150px;
+           
+           
+        }
+      .color, .time{
+        width: 25%;
+        margin-top: 50px;
+        
+      }
+ 
+ 
+  
+.cbtn{
+    background-color: transparent;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px #edf2f4 solid;
+  cursor: pointer;
+  width: 170px;
+    height: 50px;
+    
+
+}
+.dropdown-content{
+        display: none;
+    }
+.dropdown-content button{
+    padding: 16px;
+  font-size: 16px;
+
+  border: transparent;
+  cursor: pointer;
+  width: 170px;
+    height: 50px;
+  
+}
+.dropdown:hover .dropdown-content{
+        display: block;
+    }
+input{
+    width: 180px;
+    height: 50px;
+   border-radius: 0px; 
+   border: transparent;
+   padding-left: 5px;
+   opacity: 87%;
+   background-color: white;
+}
+input:focus{
+    outline-color: transparent;
+    opacity: 100%;
+    border: transparent;
+}
+.zuta{
+    background-color: #ffdd00;
+}
+.zuta:hover{
+    opacity: 90%;
+}
+.crvena{
+    background-color: red;
+}
+.crvena:hover{
+    opacity: 90%;
+}
+.plava{
+    background-color:#00b4d8 ;
+}
+.plava:hover{
+    opacity: 90%;
+}
+.zelena{
+    background-color: green;
+}
+.zelena:hover{
+    opacity: 90%;
+}
+.roze{
+    background-color: #ff69eb;
+}
+.roze:hover{
+    opacity: 90%;
+}
+.narandzasta{
+    background-color: orange;
+}
+.narandzasta:hover{
+    opacity: 90%;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="editor">
+        <div class="color">
+<div class="dropdown">
+    <button class="cbtn">Izaberi boju</button>
+    <div class="dropdown-content">
+        <button class="zuta">Žuta</button>
+        <button class="crvena">Crvena</button>
+        <button class="plava"> Plava</button>
+        
+        <button class="zelena">Zelena</button>
+        <button class="roze">Roze</button>
+        <button class="narandzasta">Narandzasta</button>
+       
+    </div>
+</div>
+        </div>
+        <div class="time">
+<input placeholder="Unesi vrijeme">
+        </div>
+    </div>
+
+    
+</body>
+</html>
