@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Početna</title>
-    <link rel="icon" type="image/x-icon" href="logo-250.png">
-   
+    <!--posalji mi ovaj png da testiram nesto oko node.js protokola  <link rel="icon" type="image/x-icon" href="logo-250.png">-->
+    <script src="/socket.io/socket.io.js"></script>
+
     <style>
         *{
     margin: 0;
@@ -256,77 +257,69 @@ button{
         <div class="staticne" id="0">
             <h1>Statične boje</h1>
             <div class="color">
-<div class="col">
-    <button name="0" id="bijela" onclick="relayInfo(this);">Bijela </button>
-</div>
-<div class="col">
-    <button name="1"  id="crvena" onclick="relayInfo(this);">Crvena </button>
-</div>
-<div class="col">
-    <button name="2" id="narandzasta" onclick="relayInfo(this);">Narandžasta</button>
-</div>
-</div>
-<div class="color">
-    <div class="col">
-        <button name="3" id="zuta" onclick="relayInfo(this);">Žuta</button>
-    </div>
-    <div class="col">
-        <button name="4" id="zelena" onclick="relayInfo(this);">Zelena</button>
-    </div>
-    <div class="col">
-        <button name="5" id="svijetlop" onclick="relayInfo(this);">Svijetlo Plava</button>
-    </div>
-    </div>
-    <div class="color">
-        <div class="col">
-            <button name="6" id="tamnop" onclick="relayInfo(this);">Tamno Plava</button>
-        </div>
-        <div class="col">
-            <button name="7" id="roze" onclick="relayInfo(this);">Roze</button>
-        </div>
-        <div class="col">
-            <button name="8" id="off" onclick="relayInfo(this);">Isključi</button>
-        </div>
-
+                <div class="col">
+                    <button name="0" id="bijela" onclick="relayInfo(this);">Bijela </button>
+                </div>
+                <div class="col">
+                    <button name="1"  id="crvena" onclick="relayInfo(this);">Crvena </button>
+                </div>
+                <div class="col">
+                    <button name="2" id="narandzasta" onclick="relayInfo(this);">Narandžasta</button>
+                </div>
             </div>
-        
-
-    </div>
-    <div class="prelazne" id="1">
-        <h1>Prelazne boje</h1>
-<div class="color">
-    <div class="col">
-        <div class="gradient-blue">
-        <button name="25" id="narandzaplava" onclick="relayInfo(this);">Narandžasta/<br>Sv.Plava</button>
+            <div class="color">
+                <div class="col">
+                    <button name="3" id="zuta" onclick="relayInfo(this);">Žuta</button>
+                </div>
+                <div class="col">
+                    <button name="4" id="zelena" onclick="relayInfo(this);">Zelena</button>
+                </div>
+                <div class="col">
+                    <button name="5" id="svijetlop" onclick="relayInfo(this);">Svijetlo Plava</button>
+                </div>
+            </div>
+            <div class="color">
+                <div class="col">
+                    <button name="6" id="tamnop" onclick="relayInfo(this);">Tamno Plava</button>
+                </div>
+                <div class="col">
+                    <button name="7" id="roze" onclick="relayInfo(this);">Roze</button>
+                </div>
+                <div class="col">
+                    <button name="8" id="off" onclick="relayInfo(this);">Isključi</button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="col">
-        <div class="gradient-red">
-
-        
-        <button name="13" id="crvenazuta" onclick="relayInfo(this);">Crvena/Žuta </button>
+        <div class="prelazne" id="1">
+            <h1>Prelazne boje</h1>
+            <div class="color">
+                <div class="gradient-blue col">
+                    <button name="25" id="narandzaplava" onclick="relayInfo(this);">Narandžasta/<br>Sv.Plava</button>
+                </div>
+                <div class="gradient-red col">
+                    <button name="13" id="crvenazuta" onclick="relayInfo(this);">Crvena/Žuta </button>
+                </div>
+                <div class="gradient-all col">
+                    <button name="08" id="cijelis" onclick="relayInfo(this);">Roze/bijela</button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="col">
-        <div class="gradient-all">
-        <button name="08" id="cijelis" onclick="relayInfo(this);">Roze/bijela</button>
-       </div>
-    </div>
-</div>
     </div>
     <div class="zvuk" id="2">
-<h1>Reakcija na zvuk</h1>
-
-    <button id="ukljuci" name=""  onclick="relayInfo(this);">Uključi</button>
-    
-
+        <h1>Reakcija na zvuk</h1>
+        <div>
+           <div>
+            <button id="ukljuci" name=""  onclick="relayInfo(this);">Uključi</button> 
+            </div> 
+        </div>
     </div>
+
     <script>
         var socket = io();
-
+        
         function relayInfo(element){
             console.log((element.parentNode.parentNode.id + element.name));
-            socket.emit("rgbLights", {status:(element.parentNode.parentNode.id + element.name)});
+            socket.emit("rgbLights", {status:(element.parentNode.parentNode.parentNode.id + element.name)});
         }
     </script>
 </body>

@@ -10,12 +10,12 @@ const parser = new parsers.Readline({
 });
 
 const app = http.createServer(function(req, res){
-    if (req.url==="/controller.js"){
-        const resFile = fs.createReadStream("frontend/controller.js");
-        resFile.pipe(res);
-        res.writeHead(200, {'Content-Type':'text/javascript'});
-    } else if (req.url==="/controller.html"){
+    if (req.url==="/controller.html?"){
         const resFile = fs.createReadStream("frontend/controller.html");
+        resFile.pipe(res);
+        res.writeHead(200, {'Content-Type':'text/html'});
+    } else if (req.url==="/editor.html?"){
+        const resFile = fs.createReadStream("frontend/editor.html");
         resFile.pipe(res);
         res.writeHead(200, {'Content-Type':'text/html'});
     } else {
@@ -27,11 +27,13 @@ const app = http.createServer(function(req, res){
 
 const io = require("socket.io").listen(app);
 
+var port;
+
 io.on('connection', function(socket){
     socket.on("comPort",function(data){
         portInput = data.status;
 
-        const port = new SerialPort(portInput,function(err){if (err){return console.log(err.message)}},{
+        port = new SerialPort(portInput,function(err){if (err){return socket.emit("confirm", {status:"fail"})}},{
             bandRate: 9600,
             dataBits: 8,
             parity: 'none',
@@ -39,8 +41,10 @@ io.on('connection', function(socket){
             flowControl: false,
         });
         
+        socket.emit("confirm", {status:("success")})
         port.pipe(parser);
     });
+    
     socket.on("rgbLights", function(data){
         port.write(data.status);
         console.log(data);
