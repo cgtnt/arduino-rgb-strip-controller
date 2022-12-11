@@ -65,7 +65,6 @@ process.on("uncaughtException", (err) => {
     process.exit(1);
 });
 
-
 app.listen(3000, function(){
     open('http://localhost:3000');
 });
