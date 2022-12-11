@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
-    <script src="/socket.io/socket.io.js"></script>
+    <title>RGB Light Controller</title>
     <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <script src="/socket.io/socket.io.js"></script>
     <style>
         *{
             margin: 0;
@@ -72,32 +72,43 @@
             font-size: 17px;
             background-color: #4361ee;
             border: none;
-            margin-top:85px;   
+            margin-top:85px;
         }
         .btn:hover{
             opacity: 90%;
         }
-        .kontroler{
-            background-color: #ffd449;
-        }
-        .editor{
-            background-color:  #4974ff;
-        }
-
     </style>
 </head>
 <body>
     <div class="container">
         <div class="layout">
-            <div class="core">
-                <form action="controller.html">
-                    <button class="kontroler btn">Controller</button>
-                </form>
-                <form action="editor.html">
-                    <button class="editor btn">Editor</button>
-                </form>
+            <div class="inputc">
+                <label id="prompt">USB Port:</label>
+                <br>
+                <input id="port">
+                <button class="send" onclick="relayCOMport(this)">Send</button>
             </div>
         </div>
     </div>
+
+    <script>
+        var socket = io();
+
+        function relayCOMport(sndButton){
+            let el = document.getElementById("prompt");
+            let port = document.getElementById("port").value;
+            console.log(port);
+            socket.emit("comPort", {status:(port)});
+            socket.on("confirm", function(data){
+                if (data.status=="fail"){
+                    el.innerText = "Invalid port, try again";
+                } else {
+                    el.innerText = "Success!";
+                    sndButton.disabled = true;
+                    location.href = location.href + "menu.html?"
+                }
+            })
+        }
+    </script>
 </body>
 </html>

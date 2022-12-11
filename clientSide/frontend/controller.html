@@ -4,315 +4,303 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Početna</title>
-    <!--posalji mi ovaj png da testiram nesto oko node.js protokola  <link rel="icon" type="image/x-icon" href="logo-250.png">-->
+    <title>Home</title>
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
     <script src="/socket.io/socket.io.js"></script>
 
     <style>
         *{
-    margin: 0;
-    padding: 0;
-    font-family:  Helvetica;
-}
-body{
-    background-color: black;
-    color: white;
-    padding-bottom: 40px;
-}
-/*layout*/
-.container{
-    width: 85%;
-    margin: auto;
-    max-width: 1290px;
-    min-width: 360px;
-}
+            margin: 0;
+            padding: 0;
+            font-family:  Helvetica;
+        }
+        body{
+            background-color: black;
+            color: white;
+            padding-bottom: 40px;
+        }
+        /*layout*/
+        .container{
+            width: 85%;
+            margin: auto;
+            max-width: 1290px;
+            min-width: 360px;
+        }
+        /*design*/
+        .staticne{
+            text-align: center;
+            margin: 0 5%;
+            margin-top: 40px;
+            border:2px solid #6c757d;
+            border-radius: 25px;
+            padding: 30px 0;
+        }
+        .prelazne{
+            text-align: center;
+            margin: 0 5%; 
+            margin-top: 50px;
+            border-radius: 25px;
+            padding: 30px 0;
+            border:2px solid #6c757d;
+        }
 
+        .color{
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
 
+        }
+        .zvuk{
+            text-align: center;
+            margin: 0 5%; 
+            margin-top: 50px;
+            border-radius: 25px;
+            padding: 30px 0;
+            border:2px solid #6c757d;
+        }
+        button{
+            height: 100px;
+            width: 200px;
+            font-size: 1.5em;
+            background-color: transparent;
+            
+            color: white;
+            transition: border-color 0.5s, background-color 0.5s, color 0.5s;
+            cursor: pointer;
+        }
+        /*boje*/
+        #bijela{
+            border:white 2px solid;
+        }
+        #bijela:hover, #bijela:active{
+            background-color: white;
+            color: black;
+        }
+        #crvena{
+            border:red 2px solid;
+        }
+        #crvena:hover, #crvena:active{
+            background-color: red;
+            color: white;
+        }
+        #narandzasta{
+            border:orange 2px solid;
+        }
+        #narandzasta:hover, #narandzasta:active{
+            background-color: orange;
+            color: white;
+        }
+        #zuta{
+            border:#ffdd00 2px solid;
+        }
+        #zuta:hover, #zuta:hover{
+            background-color: #ffdd00;
+            color: white;
+        }
+        #zelena{
+            border:green 2px solid;
+        }
+        #zelena:hover, #zelena:active{
+            background-color: green;
+            color: white;
+        }
+        #svijetlop{
+            border:#00b4d8 2px solid;
+            
+        }
+        #svijetlop:hover, #svijetlop:active{
+            background-color: #00b4d8;
+            color: white;
+        }
+        #tamnop{
+            border:#03045e 3px solid;
+        }
+        #tamnop:hover, #tamnop:active{
+            background-color: #03045e;
+            color: white;
+        }
+        #roze{
+            border:#ff69eb 2px solid;
+        }
+        #roze:hover, #roze:active{
+            background-color: #ff69eb;
+            color: white;
+        }
+        .gradient-blue{
+            background: linear-gradient(to right, orange, #00b4d8);
+            height: 100px;
+            width: 200px;
+            padding: 2px;
+        }
+        #narandzaplava{
+            border: transparent;
+            background: black;
+        }
+        #narandzaplava:hover, #narandzaplava:active{   
+            background: linear-gradient(to right, orange, #00b4d8);  
+        }
+        .gradient-red{
+            background: linear-gradient(to right, #d00000, #ffc300);
+            height: 100px;
+            width: 200px;
+            padding: 2px;
+        }
+        #crvenazuta{
+            border: transparent;
+            background: black;
+        }
+        #crvenazuta:hover, #crvenazuta:active{
+            background: linear-gradient(to right, #d00000, #ffee32);  
+        }
+        .gradient-all{
+            background: linear-gradient(to left, white, #ff477e  );
+            height: 100px;
+            width: 200px;
+            padding: 2px;
+        }
+        #cijelis{
+            border: transparent;
+            background: black;
+        }
+        #cijelis:hover, #cijelis:active{
+            background: linear-gradient(to left, white, #ff477e  );
+        }
+        #ukljuci{
+            background-color: #2cb67d;
+            width: 250px;
+            border: white;
+            color:white;
+            margin-top: 40px;
+        }
+        #ukljuci:hover{
+        opacity: 90%;
+        }
+        #off{
+            border: 2px solid white;
+        }
+        /*responsive*/
+        @media (max-width:800px)  and (min-width:638px) {
+            .container{
+                width: 100%;
+            }
+            .staticne,
+            .prelazne, 
+            .zvuk{
+                margin: 40px 2%;
+            }
+        }
+        @media(max-width:638px){
+            .color{
+                flex-direction: column;
+                text-align: center;
+            }
+            .col{
+                margin-top: 20px;
+            }
+            button{
+                width: 100%;
+                height: 150px;
+            }
 
-
-/*design*/
-.staticne{
-    text-align: center;
-    margin: 0 5%;
-    margin-top: 40px;
-    border:2px solid #6c757d;
-    border-radius: 25px;
-    padding: 30px 0;
-}
-.prelazne{
-    text-align: center;
-    margin: 0 5%; 
-    margin-top: 50px;
-    border-radius: 25px;
-    padding: 30px 0;
-    border:2px solid #6c757d;
-}
-
-.color{
-    display: flex;
-    justify-content: space-around;
-    margin-top: 40px;
-
-}
-.zvuk{
-text-align: center;
-margin: 0 5%; 
-margin-top: 50px;
-border-radius: 25px;
-padding: 30px 0;
-border:2px solid #6c757d;
-}
-
-
-button{
-    height: 100px;
-    width: 200px;
-    font-size: 1.5em;
-    background-color: transparent;
-    
-    color: white;
-    transition: border-color 0.5s, background-color 0.5s, color 0.5s;
-    cursor: pointer;
-    
-}
-/*boje*/
- #bijela{
-    border:white 2px solid;
-}
-#bijela:hover, #bijela:active{
-    background-color: white;
-    color: black;
-}
-#crvena{
-    border:red 2px solid;
-}
-#crvena:hover, #crvena:active{
-    background-color: red;
-    color: white;
-}
-#narandzasta{
-    border:orange 2px solid;
-}
-#narandzasta:hover, #narandzasta:active{
-    background-color: orange;
-    color: white;
-}
-#zuta{
-    border:#ffdd00 2px solid;
-}
-#zuta:hover, #zuta:hover{
-    background-color: #ffdd00;
-    color: white;
-}
-#zelena{
-    border:green 2px solid;
-}
-#zelena:hover, #zelena:active{
-    background-color: green;
-    color: white;
-}
-#svijetlop{
-    border:#00b4d8 2px solid;
-    
-}
-#svijetlop:hover, #svijetlop:active{
-    background-color: #00b4d8;
-    color: white;
-}
-#tamnop{
-    border:#03045e 3px solid;
-}
-#tamnop:hover, #tamnop:active{
-    background-color: #03045e;
-    color: white;
-}
-#roze{
-    border:#ff69eb 2px solid;
-}
-#roze:hover, #roze:active{
-    background-color: #ff69eb;
-    color: white;
-}
-.gradient-blue{
- background: linear-gradient(to right, orange, #00b4d8);
- height: 100px;
- width: 200px;
- padding: 2px;
-
-}
-#narandzaplava{
-    border: transparent;
-    background: black;
-  
-}
-#narandzaplava:hover, #narandzaplava:active{   
-    background: linear-gradient(to right, orange, #00b4d8);  
-}
-.gradient-red{
-    background: linear-gradient(to right, #d00000, #ffc300);
-    height: 100px;
-    width: 200px;
-    padding: 2px;
-   
-}
-#crvenazuta{
-    border: transparent;
-    background: black;
-    
-}
-#crvenazuta:hover, #crvenazuta:active{
-    background: linear-gradient(to right, #d00000, #ffee32);  
-}
-.gradient-all{
-    background: linear-gradient(to left, white, #ff477e  );
-    height: 100px;
-    width: 200px;
-    padding: 2px;
-}
-#cijelis{
-    border: transparent;
-    background: black;
-    
-}
-#cijelis:hover, #cijelis:active{
-    background: linear-gradient(to left, white, #ff477e  );
-}
- #ukljuci{
-    background-color: #2cb67d;
-    width: 250px;
-    border: white;
-    color:white;
-    margin-top: 40px;
-    
-}
-#ukljuci:hover{
-   opacity: 90%;
-}
-
-#off{
-    border: 2px solid white;
-}
-
-/*responsive*/
-@media (max-width:800px)  and (min-width:638px) {
-  .container{
-    width: 100%;
-  }
-  .staticne,
-  .prelazne, 
-  .zvuk{
-    margin: 40px 2%;
-  }
-}
-@media(max-width:638px){
- 
-    .color{
-        flex-direction: column;
-        text-align: center;
-    }
-    .col{
-        margin-top: 20px;
-    }
-    button{
-        width: 100%;
-        height: 150px;
-    }
-
-    .gradient-all{
-        width: 100%;
-        height: 150px;
-    }
-    .gradient-red{
-        width: 100%;
-        height: 150px;
-    }
-    .gradient-blue{
-        width: 100%;
-        height: 150px;
-    }
-    .staticne{
-        border: none;
-        margin: 0 2%;
-        text-align: center;
-    }
-    .prelazne{
-        border: none;
-        margin: 0 2%;
-        
-    }
-    .zvuk{
-        border: none;
-        margin: 0 2%;
-    }
-    #ukljuci{
-        margin: 0;
-        margin-bottom: 20px;
-        
-    }
-}
+            .gradient-all{
+                width: 100%;
+                height: 150px;
+            }
+            .gradient-red{
+                width: 100%;
+                height: 150px;
+            }
+            .gradient-blue{
+                width: 100%;
+                height: 150px;
+            }
+            .staticne{
+                border: none;
+                margin: 0 2%;
+                text-align: center;
+            }
+            .prelazne{
+                border: none;
+                margin: 0 2%;
+                
+            }
+            .zvuk{
+                border: none;
+                margin: 0 2%;
+            }
+            #ukljuci{
+                margin: 0;
+                margin-bottom: 20px;
+                
+            }
+        }
 </style>
 </head>
 <body>
     <div class="container">
         <div class="staticne" id="0">
-            <h1>Statične boje</h1>
+            <h1>Static Colors</h1>
             <div class="color">
                 <div class="col">
-                    <button name="0" id="bijela" onclick="relayInfo(this);">Bijela </button>
+                    <button name="0" id="bijela" onclick="relayInfo(this);">White</button>
                 </div>
                 <div class="col">
-                    <button name="1"  id="crvena" onclick="relayInfo(this);">Crvena </button>
+                    <button name="1"  id="crvena" onclick="relayInfo(this);">Red</button>
                 </div>
                 <div class="col">
-                    <button name="2" id="narandzasta" onclick="relayInfo(this);">Narandžasta</button>
+                    <button name="2" id="narandzasta" onclick="relayInfo(this);">Orange</button>
                 </div>
             </div>
             <div class="color">
                 <div class="col">
-                    <button name="3" id="zuta" onclick="relayInfo(this);">Žuta</button>
+                    <button name="3" id="zuta" onclick="relayInfo(this);">Yellow</button>
                 </div>
                 <div class="col">
-                    <button name="4" id="zelena" onclick="relayInfo(this);">Zelena</button>
+                    <button name="4" id="zelena" onclick="relayInfo(this);">Green</button>
                 </div>
                 <div class="col">
-                    <button name="5" id="svijetlop" onclick="relayInfo(this);">Svijetlo Plava</button>
+                    <button name="5" id="svijetlop" onclick="relayInfo(this);">Cyan</button>
                 </div>
             </div>
             <div class="color">
                 <div class="col">
-                    <button name="6" id="tamnop" onclick="relayInfo(this);">Tamno Plava</button>
+                    <button name="6" id="tamnop" onclick="relayInfo(this);">Blue</button>
                 </div>
                 <div class="col">
-                    <button name="7" id="roze" onclick="relayInfo(this);">Roze</button>
+                    <button name="7" id="roze" onclick="relayInfo(this);">Pink</button>
                 </div>
                 <div class="col">
-                    <button name="8" id="off" onclick="relayInfo(this);">Isključi</button>
+                    <button name="8" id="off" onclick="relayInfo(this);">Black/Off</button>
                 </div>
             </div>
         </div>
         <div class="prelazne" id="1">
-            <h1>Prelazne boje</h1>
+            <h1>Gradients</h1>
             <div class="color">
                 <div class="gradient-blue col">
-                    <button name="25" id="narandzaplava" onclick="relayInfo(this);">Narandžasta/<br>Sv.Plava</button>
+                    <button name="25" id="narandzaplava" onclick="relayInfo(this);">Orange/Cyan</button>
                 </div>
                 <div class="gradient-red col">
-                    <button name="13" id="crvenazuta" onclick="relayInfo(this);">Crvena/Žuta </button>
+                    <button name="13" id="crvenazuta" onclick="relayInfo(this);">Red/Yellow </button>
                 </div>
                 <div class="gradient-all col">
-                    <button name="08" id="cijelis" onclick="relayInfo(this);">Roze/bijela</button>
+                    <button name="08" id="cijelis" onclick="relayInfo(this);">Pink/White</button>
                 </div>
             </div>
         </div>
     </div>
     <div class="zvuk" id="2">
-        <h1>Reakcija na zvuk</h1>
+        <h1>Audio Visualizer</h1>
         <div>
-           <div>
-            <button id="ukljuci" name=""  onclick="relayInfo(this);">Uključi</button> 
+            <div>
+                <button id="ukljuci" name=""  onclick="relayInfo(this);">Turn On</button> 
             </div> 
         </div>
     </div>
+
+    <form action="menu.html">
+        <button class="btn">Back</button>
+    </form>
 
     <script>
         var socket = io();

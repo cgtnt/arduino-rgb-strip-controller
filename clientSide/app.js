@@ -18,8 +18,12 @@ const app = http.createServer(function(req, res){
         const resFile = fs.createReadStream("frontend/editor.html");
         resFile.pipe(res);
         res.writeHead(200, {'Content-Type':'text/html'});
-    } else {
+    } else if (req.url==="/menu.html?"){
         const resFile = fs.createReadStream("frontend/menu.html");
+        resFile.pipe(res);
+        res.writeHead(200, {'Content-Type':'text/html'});
+    } else {
+        const resFile = fs.createReadStream("frontend/input.html");
         resFile.pipe(res);
         res.writeHead(200, {'Content-Type':'text/html'});
     }
@@ -33,15 +37,13 @@ io.on('connection', function(socket){
     socket.on("comPort",function(data){
         portInput = data.status;
 
-        port = new SerialPort(portInput,function(err){if (err){return socket.emit("confirm", {status:"fail"})}},{
+        port = new SerialPort(portInput,function(err){if (err){return socket.emit("confirm", {status:"fail"})}else{socket.emit("confirm", {status:("success")})}},{
             bandRate: 9600,
             dataBits: 8,
             parity: 'none',
             stopBits: 1,
             flowControl: false,
         });
-        
-        socket.emit("confirm", {status:("success")})
         port.pipe(parser);
     });
     
@@ -62,6 +64,7 @@ process.on("uncaughtException", (err) => {
     port.write("08");
     process.exit(1);
 });
+
 
 app.listen(3000, function(){
     open('http://localhost:3000');
