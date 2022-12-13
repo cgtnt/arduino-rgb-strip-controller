@@ -139,8 +139,34 @@
         #narandzaplava:hover, #narandzaplava:active{   
             background: linear-gradient(to right, orange, #00b4d8);  
         }
+        #plavacrna{
+            border: transparent;
+            background: black;
+        }
+        #plavacrna:hover, #plavacrna:active{   
+            background: linear-gradient(to right, #03045e, #000000); 
+        }
+        #crvenacrna{
+            border: transparent;
+            background: black;
+        }
+        #crvenacrna:hover, #crvenacrna:active{   
+            background: linear-gradient(to right, #d00000, #000000);
+        }
         .gradient-red{
             background: linear-gradient(to right, #d00000, #ffc300);
+            height: 100px;
+            width: 200px;
+            padding: 2px;
+        }
+        .strobe-red{
+            background: linear-gradient(to right, #d00000, #000000);
+            height: 100px;
+            width: 200px;
+            padding: 2px;
+        }
+        .strobe-blue{
+            background: linear-gradient(to right, #03045e, #000000);
             height: 100px;
             width: 200px;
             padding: 2px;
@@ -288,19 +314,21 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="zvuk" id="2">
-        <h1>Audio Visualizer</h1>
-        <div>
-            <div>
-                <button id="ukljuci" name=""  onclick="relayInfo(this);">Turn On</button> 
-            </div> 
+        <div class="zvuk" id="2">
+            <h1>Strobe Lights</h1>
+            <div class="color">
+                <div class="strobe-blue col">
+                    <button name="68" id="plavacrna" onclick="relayInfo(this);">Blue/Off</button>  
+                </div> 
+                <div class="strobe-red col">
+                    <button name="18" id="crvenacrna" onclick="relayInfo(this);">Red/Off</button>
+                </div>
+            </div>
         </div>
+        <form action="menu.html">
+            <button class="btn">Back</button>
+        </form>
     </div>
-
-    <form action="menu.html">
-        <button class="btn">Back</button>
-    </form>
 
     <script>
         var socket = io();

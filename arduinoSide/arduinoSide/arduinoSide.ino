@@ -4,11 +4,6 @@ int green_light_pin = 10;
 int blue_light_pin = 11;
 
 //Variables
-#define sensorPin A1
-float sensorValue = 0; 
-float filteredSignal = 0;
-float filteredSignalValues[] = {2.9, 2.7, 2.4, 2.1, 1.7, 1.3, 0.9, 0.2, 0.15};
-bool soundReact = false;
 typedef struct
   {
       int short r;
@@ -16,6 +11,7 @@ typedef struct
       int short b;
   }  RGBtemplate;
 
+int strobeDuration = 200; //In milliseconds
 //Colors
 RGBtemplate colors[9] = {
   {255,255,255}, //White
@@ -93,30 +89,13 @@ void loop() {
       }
       
       
-      }else if(lightMode=="2"){                        //mode 2 - Changes colors based on sound intensity (if you have a microphone module attaached)
-        if (soundReact==false){
-          soundReact = true;
-          while (Serial.available()==0){
-            delay(30);
-          reactToSoundF();
+      }else if(lightMode=="2"){ 
+        while (Serial.available()==0){//mode 2 - Strobe lights
+          RGB_color(colors[firstColorIndex].r, colors[firstColorIndex].g, colors[firstColorIndex].b);
+          delay(strobeDuration);
+          RGB_color(colors[lastColorIndex].r, colors[lastColorIndex].g, colors[lastColorIndex].b);
+          delay(strobeDuration);
         }
-        soundReact = false;
       }
-    }
-  }
-}
-
-//Microphone module code
-void reactToSoundF() {
-  sensorValue = (float) analogRead(sensorPin) * (5.0 / 1024.0);
-
-  filteredSignal = (0.945 * filteredSignal) + (0.0549 * sensorValue);
-
-  if (filteredSignal <= filteredSignalValues[6] && filteredSignal > filteredSignalValues[8]) {
-    RGB_color(colors[2].r, colors[2].g, colors[2].b); //Orange
-  } else if (filteredSignal <= filteredSignalValues[7]){
-    RGB_color(colors[3].r, colors[3].g, colors[3].b); //Yellow
-  } else {
-    RGB_color(colors[1].r, colors[1].g, colors[1].b); //Red
   }
 }
