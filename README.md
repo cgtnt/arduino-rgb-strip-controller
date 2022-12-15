@@ -10,5 +10,5 @@
 
 # Feautures:
 - Control LED color;
-- Statis and gradient color presets;
+- Static, strobe and gradient color presets;
 - Create your own sequences using the built-in editor;
