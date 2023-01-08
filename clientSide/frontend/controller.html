@@ -27,7 +27,7 @@
             min-width: 360px;
         }
         /*design*/
-        .staticne{
+        .staticColors{
             text-align: center;
             margin: 0 5%;
             margin-top: 40px;
@@ -35,7 +35,7 @@
             border-radius: 25px;
             padding: 30px 0;
         }
-        .prelazne{
+        .gradients{
             text-align: center;
             margin: 0 5%; 
             margin-top: 50px;
@@ -43,14 +43,7 @@
             padding: 30px 0;
             border:2px solid #6c757d;
         }
-
-        .color{
-            display: flex;
-            justify-content: space-around;
-            margin-top: 40px;
-
-        }
-        .zvuk{
+        .sequences{
             text-align: center;
             margin: 0 5%; 
             margin-top: 50px;
@@ -63,280 +56,143 @@
             width: 200px;
             font-size: 1.5em;
             background-color: transparent;
+            border:white 2px solid;
+            margin: 10px;
             
             color: white;
-            transition: border-color 0.5s, background-color 0.5s, color 0.5s;
+            transition: border-color 0.3s, background-color 0.3s, color 0.3s;
             cursor: pointer;
         }
-        /*boje*/
-        #bijela{
-            border:white 2px solid;
+        button:hover{
+            background-color: rgb(97, 97, 97);
+            color: rgb(253, 253, 253);
         }
-        #bijela:hover, #bijela:active{
-            background-color: white;
-            color: black;
+        button:active{
+            background-color: transparent;
         }
-        #crvena{
-            border:red 2px solid;
+        .back{    
+            margin: 0 5%; 
+            margin-top: 50px;
+            border-radius: 25px;
+            padding: 30px 0;
         }
-        #crvena:hover, #crvena:active{
-            background-color: red;
-            color: white;
-        }
-        #narandzasta{
-            border:orange 2px solid;
-        }
-        #narandzasta:hover, #narandzasta:active{
-            background-color: orange;
-            color: white;
-        }
-        #zuta{
-            border:#ffdd00 2px solid;
-        }
-        #zuta:hover, #zuta:hover{
-            background-color: #ffdd00;
-            color: white;
-        }
-        #zelena{
-            border:green 2px solid;
-        }
-        #zelena:hover, #zelena:active{
-            background-color: green;
-            color: white;
-        }
-        #svijetlop{
-            border:#00b4d8 2px solid;
-            
-        }
-        #svijetlop:hover, #svijetlop:active{
-            background-color: #00b4d8;
-            color: white;
-        }
-        #tamnop{
-            border:#03045e 3px solid;
-        }
-        #tamnop:hover, #tamnop:active{
-            background-color: #03045e;
-            color: white;
-        }
-        #roze{
-            border:#ff69eb 2px solid;
-        }
-        #roze:hover, #roze:active{
-            background-color: #ff69eb;
-            color: white;
-        }
-        .gradient-blue{
-            background: linear-gradient(to right, orange, #00b4d8);
-            height: 100px;
-            width: 200px;
-            padding: 2px;
-        }
-        #narandzaplava{
-            border: transparent;
-            background: black;
-        }
-        #narandzaplava:hover, #narandzaplava:active{   
-            background: linear-gradient(to right, orange, #00b4d8);  
-        }
-        #plavacrna{
-            border: transparent;
-            background: black;
-        }
-        #plavacrna:hover, #plavacrna:active{   
-            background: linear-gradient(to right, #03045e, #000000); 
-        }
-        #crvenacrna{
-            border: transparent;
-            background: black;
-        }
-        #crvenacrna:hover, #crvenacrna:active{   
-            background: linear-gradient(to right, #d00000, #000000);
-        }
-        .gradient-red{
-            background: linear-gradient(to right, #d00000, #ffc300);
-            height: 100px;
-            width: 200px;
-            padding: 2px;
-        }
-        .strobe-red{
-            background: linear-gradient(to right, #d00000, #000000);
-            height: 100px;
-            width: 200px;
-            padding: 2px;
-        }
-        .strobe-blue{
-            background: linear-gradient(to right, #03045e, #000000);
-            height: 100px;
-            width: 200px;
-            padding: 2px;
-        }
-        #crvenazuta{
-            border: transparent;
-            background: black;
-        }
-        #crvenazuta:hover, #crvenazuta:active{
-            background: linear-gradient(to right, #d00000, #ffee32);  
-        }
-        .gradient-all{
-            background: linear-gradient(to left, white, #ff477e  );
-            height: 100px;
-            width: 200px;
-            padding: 2px;
-        }
-        #cijelis{
-            border: transparent;
-            background: black;
-        }
-        #cijelis:hover, #cijelis:active{
-            background: linear-gradient(to left, white, #ff477e  );
-        }
-        #ukljuci{
-            background-color: #2cb67d;
-            width: 250px;
-            border: white;
-            color:white;
-            margin-top: 40px;
-        }
-        #ukljuci:hover{
-        opacity: 90%;
-        }
-        #off{
+        .btn{
+            height: 50px;
+            width: 120px;
+            transition: 0.2s;
             border: 2px solid white;
+            border-radius: 5px;
         }
+        .btn:hover, .btn:active{
+            background-color: #ffd449;
+            border: 2px solid #ffd449;
+        }
+        
         /*responsive*/
         @media (max-width:800px)  and (min-width:638px) {
             .container{
                 width: 100%;
             }
-            .staticne,
-            .prelazne, 
-            .zvuk{
+            .staticColors,
+            .gradients, 
+            .sequences{
                 margin: 40px 2%;
             }
         }
         @media(max-width:638px){
-            .color{
-                flex-direction: column;
-                text-align: center;
-            }
-            .col{
-                margin-top: 20px;
-            }
             button{
                 width: 100%;
                 height: 150px;
             }
-
-            .gradient-all{
-                width: 100%;
-                height: 150px;
-            }
-            .gradient-red{
-                width: 100%;
-                height: 150px;
-            }
-            .gradient-blue{
-                width: 100%;
-                height: 150px;
-            }
-            .staticne{
+            .staticColors{
                 border: none;
                 margin: 0 2%;
                 text-align: center;
             }
-            .prelazne{
+            .gradients{
                 border: none;
                 margin: 0 2%;
                 
             }
-            .zvuk{
+            .sequences{
                 border: none;
                 margin: 0 2%;
-            }
-            #ukljuci{
-                margin: 0;
-                margin-bottom: 20px;
-                
             }
         }
 </style>
 </head>
 <body>
     <div class="container">
-        <div class="staticne" id="0">
+        <div class="staticColors" id="colors">
             <h1>Static Colors</h1>
-            <div class="color">
-                <div class="col">
-                    <button name="0" id="bijela" onclick="relayInfo(this);">White</button>
-                </div>
-                <div class="col">
-                    <button name="1"  id="crvena" onclick="relayInfo(this);">Red</button>
-                </div>
-                <div class="col">
-                    <button name="2" id="narandzasta" onclick="relayInfo(this);">Orange</button>
-                </div>
-            </div>
-            <div class="color">
-                <div class="col">
-                    <button name="3" id="zuta" onclick="relayInfo(this);">Yellow</button>
-                </div>
-                <div class="col">
-                    <button name="4" id="zelena" onclick="relayInfo(this);">Green</button>
-                </div>
-                <div class="col">
-                    <button name="5" id="svijetlop" onclick="relayInfo(this);">Cyan</button>
-                </div>
-            </div>
-            <div class="color">
-                <div class="col">
-                    <button name="6" id="tamnop" onclick="relayInfo(this);">Blue</button>
-                </div>
-                <div class="col">
-                    <button name="7" id="roze" onclick="relayInfo(this);">Pink</button>
-                </div>
-                <div class="col">
-                    <button name="8" id="off" onclick="relayInfo(this);">Black/Off</button>
-                </div>
-            </div>
+            
         </div>
-        <div class="prelazne" id="1">
+        <div class="gradients" id="gradients">
             <h1>Gradients</h1>
-            <div class="color">
-                <div class="gradient-blue col">
-                    <button name="25" id="narandzaplava" onclick="relayInfo(this);">Orange/Cyan</button>
-                </div>
-                <div class="gradient-red col">
-                    <button name="13" id="crvenazuta" onclick="relayInfo(this);">Red/Yellow </button>
-                </div>
-                <div class="gradient-all col">
-                    <button name="08" id="cijelis" onclick="relayInfo(this);">Pink/White</button>
-                </div>
-            </div>
+            
         </div>
-        <div class="zvuk" id="2">
-            <h1>Strobe Lights</h1>
-            <div class="color">
-                <div class="strobe-blue col">
-                    <button name="68" id="plavacrna" onclick="relayInfo(this);">Blue/Off</button>  
-                </div> 
-                <div class="strobe-red col">
-                    <button name="18" id="crvenacrna" onclick="relayInfo(this);">Red/Off</button>
-                </div>
-            </div>
+        <div class="sequences" id="sequences">
+            <h1> Sequences </h1>
+            
         </div>
-        <form action="menu.html">
-            <button class="btn">Back</button>
-        </form>
+        <div class="back">
+            <form action="menu.html">
+                <button class="btn">Back</button>
+            </form>
+        </div>
     </div>
 
     <script>
-        var socket = io();
+
+        const socket = io();
         
         function relayInfo(element){
-            console.log((element.parentNode.parentNode.id + element.name));
-            socket.emit("rgbLights", {status:(element.parentNode.parentNode.parentNode.id + element.name)});
+            let typeIndex = element.parentNode.attributes["id"].value;
+            let index = element.id;
+
+            socket.emit("rgbLights", {typeindex:typeIndex,index:index});
+            console.log("rgbLights", {typeindex:typeIndex,index:index});
         }
+
+        socket.on("populate",function(data){
+            for (const category in data){
+                for (const obj in data[category]){
+                    let btn = document.createElement("button");
+                    btn.innerHTML = obj;
+                    btn.id = obj;
+
+                    let JSONobject = data[category][obj];
+                    
+                    if(category == "colors"){
+                        btn.style.borderColor = `rgb(${JSONobject.r},${JSONobject.g},${JSONobject.b})`;
+                    }
+
+                    if(category == "gradients"){
+                        let gradClr1 = data["colors"][JSONobject.color1];
+                        let gradClr2 = data["colors"][JSONobject.color2];
+
+                        btn.style.borderImage = `linear-gradient(to right,rgb(${gradClr1.r},${gradClr1.g},${gradClr1.b}),rgb(${gradClr2.r},${gradClr2.g},${gradClr2.b})) 1`;
+                    }
+
+                    if(category=="sequences"){
+                        let gradStringArray = [];
+                        for(const part of JSONobject){
+                            let clr = data["colors"][part["color"]];
+                            let str = `rgb(${clr.r},${clr.g},${clr.b})`
+                            gradStringArray.push(str);
+                        }
+                        let clrString = gradStringArray.join(",");
+
+                        btn.style.borderImage = `linear-gradient(to right,${clrString}) 1`;
+                    }
+
+                    
+                    btn.setAttribute("class","button");
+                    btn.setAttribute("onClick", "relayInfo(this)");
+                    document.getElementById(category).appendChild(btn);
+                }
+            }
+        });
     </script>
 </body>
 </html>

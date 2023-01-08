@@ -2,12 +2,16 @@ const http = require("http");
 const fs =  require("fs");
 const open = require('open');
 const SerialPort = require('serialport');
-const { fileURLToPath } = require("url");
 const parsers = SerialPort.parsers;
+
+let JSONContent = JSON.parse(fs.readFileSync("appData/data.json"))
 
 const parser = new parsers.Readline({
     delimiter: '\r\n'
 });
+
+const delay = async (ms = 1000) =>
+  new Promise(resolve => setTimeout(resolve, ms));
 
 const app = http.createServer(function(req, res){
     if (req.url==="/controller.html?"){
@@ -32,12 +36,23 @@ const app = http.createServer(function(req, res){
 const io = require("socket.io").listen(app);
 
 var port;
+let currentInterval;
+let colorinprogress;
+let seqQueue = [];
+
+let changeColor = function(clr){
+    port.write(clr.r+","+clr.g+","+clr.b);
+    console.log(clr.r+","+clr.g+","+clr.b);
+}
+
 
 io.on('connection', function(socket){
-    socket.on("comPort",function(data){
-        portInput = data.status;
+    socket.emit("populate", JSONContent);
 
-        port = new SerialPort(portInput,function(err){if (err){return socket.emit("confirm", {status:"fail"})}else{socket.emit("confirm", {status:("success")})}},{
+    socket.on("comPort",function(data){
+        portInput = data;
+
+        port = new SerialPort(portInput,function(err){if (err){return socket.emit("confirm","fail")}else{socket.emit("confirm", "success")}},{
             bandRate: 9600,
             dataBits: 8,
             parity: 'none',
@@ -46,10 +61,67 @@ io.on('connection', function(socket){
         });
         port.pipe(parser);
     });
+
+    socket.on("appendObj", function(data){
+        let content = data["content"];
+        let target = data["target"];
+
+        let newProp = Object.assign(JSONContent[target],content);
+        JSONContent[target] = newProp;
+        fs.writeFileSync("appData/data.json",JSON.stringify(JSONContent));
+        console.log(JSONContent);
+    });
+
+    socket.on("removeObj", function(data){
+        let content = data["content"];
+        let target = data["target"];
+        console.log(data);
+        
+        delete JSONContent[target][content];
+        fs.writeFileSync("appData/data.json",JSON.stringify(JSONContent));
+        console.log(JSONContent);
+    })
     
     socket.on("rgbLights", function(data){
-        port.write(data.status);
+        let JSONCategory = JSONContent[data.typeindex];
+        clearInterval(currentInterval);
+        colorinprogress=data.index;
         console.log(data);
+
+        if (data.typeindex=="sequences"){
+            let sequence = JSONCategory[data.index];
+            for (const task in seqQueue){
+                clearTimeout(task);
+            }
+            let forF = async function(){
+                for(const element of sequence){
+                
+                    let color = JSONContent["colors"][element.color];
+                    let duration = element.duration;
+
+                    if(data.index==colorinprogress){
+                        changeColor(color);
+                    }else{break;}
+                    await delay(duration);
+                };
+                if(data.index==colorinprogress){
+                    forF();
+                }
+            }
+            forF();
+        }
+        if (data.typeindex=="colors"){
+            let color = JSONCategory[data.index];
+            changeColor(color);
+        }
+        if (data.typeindex=="gradients"){
+            let gradient = JSONCategory[data.index];
+            let color1 = JSONContent["colors"][gradient.color1];
+            let color2 = JSONContent["colors"][gradient.color2];
+            
+            console.log(color1.r+","+color1.g+","+color1.b+","+"gr"+","+color2.r+","+color2.g+","+color2.b);
+            port.write(color1.r+","+color1.g+","+color1.b+","+"gr"+","+color2.r+","+color2.g+","+color2.b);
+        }
     });
 });
 

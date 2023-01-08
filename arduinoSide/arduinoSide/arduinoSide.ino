@@ -3,35 +3,6 @@ int red_light_pin= 9;
 int green_light_pin = 10;
 int blue_light_pin = 11;
 
-//Variables
-typedef struct
-  {
-      int short r;
-      int short g;
-      int short b;
-  }  RGBtemplate;
-
-int strobeDuration = 200; //In milliseconds
-//Colors
-RGBtemplate colors[9] = {
-  {255,255,255}, //White
-  {255, 0, 0}, //Red
-  {255, 132, 0}, //Orange
-  {255, 247, 0}, //Yellow
-  {81, 255, 0}, //Green
-  {0, 234, 255},//Teal
-  {0, 8, 255}, //Blue
-  {255, 0, 217}, //Pink
-  {0,0,0}        //Black/Off
-};
-
-void RGB_color(int red_light_value, int green_light_value, int blue_light_value)
- {
-  analogWrite(red_light_pin, red_light_value);
-  analogWrite(green_light_pin, green_light_value);
-  analogWrite(blue_light_pin, blue_light_value);
-}
-
 void setup() {
   Serial.begin(9600);
   pinMode(red_light_pin, OUTPUT);
@@ -40,62 +11,67 @@ void setup() {
 }
 
 void loop() {
-  if(Serial.available()>0){   //Cita serial input (podatke sa node.js servera)
-    String receivedData = Serial.readString();
+  if(Serial.available()>0){   //Reads serial input from node.js server
+    String receivedData = Serial.readString();  
+    int dataLength = receivedData.length()+1;
+    char charArray[dataLength];
+    receivedData.toCharArray(charArray, dataLength);
 
-    String lightMode = receivedData.substring(0,1);
-    int firstColorIndex = receivedData.substring(1,2).toInt();
-    int lastColorIndex = receivedData.substring(2,3).toInt();
+    char *strings[7];
+    char *ptr = NULL;
+    byte index = 0;
+    ptr = strtok(charArray, ",");
+    while (ptr != NULL)
+    {
+      strings[index] = ptr;
+      index++;
+      ptr = strtok(NULL, ",");
+    }
+    int r1 = atoi(strings[0]);
+    int g1 = atoi(strings[1]);
+    int b1 = atoi(strings[2]);
+    if(String(strings[3])=="gr"){
+      int r2 = atoi(strings[4]);
+      int g2 = atoi(strings[5]);
+      int b2 = atoi(strings[6]);
 
-    if (lightMode=="0"){                            //mode 0 - static color (indexed with firstColorIndex from colors array)
-      RGB_color(colors[firstColorIndex].r, colors[firstColorIndex].g, colors[firstColorIndex].b); 
-    }else if(lightMode=="1"){                       //mode 1 - gradient between colors indexed by firstcolorindex and lastcolorindex from colors array
-        int maxI = max(firstColorIndex,lastColorIndex);
-        int minI = min(firstColorIndex,lastColorIndex);
-        
-        int r1 = colors[minI].r;
-        int g1 = colors[minI].g;
-        int b1 = colors[minI].b;
-        int r2 = colors[maxI].r;
-        int g2 = colors[maxI].g;
-        int b2 = colors[maxI].b;
+      int rc = r1;
+      int gc = g1;
+      int bc = b1;
 
-        int rc = r1;
-        int gc = g1;
-        int bc = b1;
+      bool rclimb = true;
+      bool gclimb = true;
+      bool bclimb = true;
 
-        bool rclimb = true;
-        bool gclimb = true;
-        bool bclimb = true;
+      while (Serial.available()==0){
+         delay(25);
+         
+         if(rc==r1){rclimb=true;}else if(rc==r2){rclimb=false;}
+         if(gc==g1){gclimb=true;}else if(gc==g2){gclimb=false;}
+         if(bc==b1){bclimb=true;}else if(bc==b2){bclimb=false;}
 
-        while (Serial.available()==0){
-          delay(25);
-          
-          if(rc==r1){rclimb=true;}else if(rc==r2){rclimb=false;}
-          if(gc==g1){gclimb=true;}else if(gc==g2){gclimb=false;}
-          if(bc==b1){bclimb=true;}else if(bc==b2){bclimb=false;}
-
-          if (r1!=r2){
-            if(rclimb==true){rc++;}else{rc--;}
-          }
-           if (g1!=g2){
-            if(gclimb==true){gc++;}else{gc--;}
-          }
-           if (b1!=b2){
-            if(bclimb==true){bc++;}else{bc--;}
-          }
-          
-          RGB_color(rc, gc, bc);
+         if (r1!=r2){
+           if(rclimb==true){rc++;}else{rc--;}
+         }
+         if (g1!=g2){
+           if(gclimb==true){gc++;}else{gc--;}
+         }
+         if (b1!=b2){
+           if(bclimb==true){bc++;}else{bc--;}
+         }
+         analogWrite(red_light_pin, rc);
+         analogWrite(green_light_pin, gc);
+         analogWrite(blue_light_pin, bc);
+         Serial.write(strings[3]);
       }
+    }else{
+      analogWrite(red_light_pin, r1);
+      analogWrite(green_light_pin, g1);
+      analogWrite(blue_light_pin, b1);
       
-      
-      }else if(lightMode=="2"){ 
-        while (Serial.available()==0){//mode 2 - Strobe lights
-          RGB_color(colors[firstColorIndex].r, colors[firstColorIndex].g, colors[firstColorIndex].b);
-          delay(strobeDuration);
-          RGB_color(colors[lastColorIndex].r, colors[lastColorIndex].g, colors[lastColorIndex].b);
-          delay(strobeDuration);
-        }
-      }
+      Serial.println(r1);
+    Serial.println(g1);
+    Serial.println(b1);
+    }
   }
 }

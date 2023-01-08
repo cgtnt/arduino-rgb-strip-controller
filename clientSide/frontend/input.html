@@ -98,9 +98,9 @@
             let el = document.getElementById("prompt");
             let port = document.getElementById("port").value;
             console.log(port);
-            socket.emit("comPort", {status:(port)});
+            socket.emit("comPort", port);
             socket.on("confirm", function(data){
-                if (data.status=="fail"){
+                if (data=="fail"){
                     el.innerText = "Invalid port, try again";
                 } else {
                     el.innerText = "Success!";

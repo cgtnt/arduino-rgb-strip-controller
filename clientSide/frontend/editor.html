@@ -4,87 +4,447 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sequence Editor</title>
+    <title>Home</title>
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <script src="/socket.io/socket.io.js"></script>
+
     <style>
         *{
             margin: 0;
             padding: 0;
-            font-family: Helvetica;
+            font-family:  Helvetica;
         }
         body{
-            background:black;
+            background-color: black;
+            color: white;
+            padding: 20px;
         }
-        .workspace{
-            margin: auto;
-            width: 400px;
+        /*layout*/
+        .container{
+            position: absolute;
+            width: 85%;
+            margin: 20px;
+            max-width: 1290px;
+            min-width: 360px;
+            display: flex;
+        }
+        /*design*/
+        #workspace{
+            border:2px solid #6c757d;
+            border-radius: 25px;
+            padding: 30px 0;
+            flex-basis: 40%;
             height: fit-content;
-            margin-top: 100px;
-            margin-bottom: 100px;
             display: flex;
             flex-direction: column;
+            text-align: center;
+            align-items: center;
+            margin: 10px;
         }
-        .savenodebtn, .newnodebtn, .addnodebtn{
-            position: fixed;
-            left: 5%;
-            width: 200px;
+        .staticColors{
+            flex-basis: 20%;
+            flex-grow: 0;
+            text-align: center;
+            border:2px solid #6c757d;
+            border-radius: 25px;
+            padding: 10px 0;
+            margin: 10px;
+        }
+        .gradients{
+            flex-basis: 20%;
+            flex-grow: 0;
+            text-align: center;
+            border-radius: 25px;
+            padding: 10px 0;
+            border:2px solid #6c757d;
+            margin: 10px;
+        }
+        .sequences{
+            flex-basis: 20%;
+            flex-grow: 0;
+            text-align: center;
+            border-radius: 25px;
+            padding: 10px 0;
+            border:2px solid #6c757d;
+            margin: 10px;
+        }
+        button{
             height: 100px;
-            border-radius: 50px;
-            font-size: 25px;
-            background-color: rgb(149, 193, 255);
-            border: 0px;
+            width: 200px;
+            font-size: 1.2em;
+            background-color: transparent;
+            border:white 2px solid;
+            margin: 10px;
             color: white;
+            transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+            cursor: pointer;
         }
-        .savenodebtn{top: 80%;}
-        .newnodebtn{top:65%}
-        .addnodebtn{left: 85%; top: 80%;}
-        .addnodebtn:hover, .savenodebtn:hover, .newnodebtn:hover{
-            opacity: 90%;
+        .create-btn{
+            inherits: button;
         }
-        .addnodebtn:active, .savenodebtn:active, .newnodebtn:active{
-            opacity: 50%;
+        .create-btn:hover{
+            background-color: rgba(116, 250, 39, 0.733);
         }
-        .node{
-            display: block;
-            background-color: rgb(50, 49, 49);
-            padding: 15px;
-            width: 100%;
-            height: 150px;
-            border-radius: 15px;
-            color: white;
+        .button:hover{
+            background-color: rgba(255, 0, 0, 0.733);
+        }
+        .button:hover::before{
+            content: "Remove ";
+        }
+        #btns{ 
+            position: fixed;
+            display: flex;
+            right: 0px;
+            top: 0px;
+            border-radius: 25px;
+            padding: 30px 0;
+        }
+        /*boje*/
+        #bijela{
+            border:white 2px solid;
+        }
+        #bijela:hover, #bijela:active{
+            background-color: white;
+            color: black;
+        }
+        .btn{
+            height: 50px;
+            width: 120px;
+            transition: 0.2s;
+            border: 2px solid white;
+            border-radius: 5px;
+        }
+        .btn:hover{
+            background-color: #ffd449;
+            border: 2px solid #ffd449;
+        }
+        .btn:active{
+            background-color: transparent;
+        }
 
+        .hidden{
+            display: none;
         }
-    </style>
+        
+        /*responsive*/
+        @media (max-width:800px)  and (min-width:638px) {
+            .container{
+                width: 100%;
+            }
+            .staticColors,
+            .gradients, 
+            .sequences{
+                margin: 40px 2%;
+            }
+        }
+        @media(max-width:638px){
+            button{
+                width: 100%;
+                height: 150px;
+            }
+            .staticColors{
+                border: none;
+                margin: 0 2%;
+                text-align: center;
+            }
+            .gradients{
+                border: none;
+                margin: 0 2%;
+                
+            }
+            .sequences{
+                border: none;
+                margin: 0 2%;
+            }
+        }
+</style>
 </head>
 <body>
-    <section class="workspace">
-        <div class="node">
-            <h1>Boja:</h1>
+    <div class="container">
+        <div class="staticColors" id="colors">
+            <h1>Static Colors</h1>
             
         </div>
-        <div class="node">
-            <h1>Boja:</h1>
+        <div class="gradients" id="gradients">
+            <h1>Gradients</h1>
             
         </div>
-        <div class="node">
-            <h1>Boja:</h1>
+        <div class="sequences" id="sequences">
+            <h1> Sequences </h1>
             
         </div>
-        <div class="node">
-            <h1>Boja:</h1>
-            
-        </div>
-        <div class="node">
-            <h1>Boja:</h1>
-            
-        </div>
-        <div class="node">
-            <h1>Boja:</h1>
-            
-        </div>
-    </section>
+        <section id="workspace">
+            <button class="create-btn" onclick="newClr()">New color</button>
+            <button class="create-btn" onclick="newGrad()">New gradient</button>
+            <button class="create-btn" onclick="newSeq()">New sequence</button>
+            <form id="newColor" class="hidden">
+                <label for="clrName">Color Name:</label>
+                <input type="text" name="clrName" id="clrName" placeholder="My Color">
+                <div style="margin: 10px">
+                    <label for="rName">R:</label>
+                    <input type="number" name="rName" id="rName" placeholder="255">
+                    <label for="gName">G:</label>
+                    <input type="number" name="gName" id="gName" placeholder="255">
+                    <label for="bName">B:</label>
+                    <input type="number" name="bName" id="bName" placeholder="255">
+                </div>
+            </form>
+            <form id="newGradient" class="hidden">
+                <label for="gradName">Gradient Name:</label>
+                <input type="text" name="gradName" id="gradName" placeholder="My Gradient">
+                <div style="margin: 10px">
+                    <label for="clr1Name">Color 1:</label>
+                    <select name="clr1Name" id="clr1Name">
 
-    <button class="addnodebtn">Add Node</button>
-    <button class="savenodebtn">Save Sequence</button>
-    <button class="newnodebtn">New Sequence</button>
+                    </select>
+                    <label for="gName">Color 2:</label>
+                    <select name="clr2Name" id="clr2Name">
+
+                    </select>
+                </div>
+            </form>
+            <div id="newSequence" class="hidden">
+                <div id="seqContainer">
+                    <div style="margin:10px">
+                        <label for="seqName">Sequence Name:</label>
+                        <input type="text" name="seqName" id="seqName" placeholder="My Sequence">
+                    </div>
+                    <form id="activeNode" style="border:2px solid #6c757d; padding: 10px;">
+                        <label>Color/Gradient:</label>
+                        <select name="clrSName">
+    
+                        </select>
+                        <label>Duration (milliseconds):</label>
+                        <input type="number" name="duration" placeholder="200">
+                    </form>
+                </div>
+                <button class="btn" onclick="addNode()">Add Node</button>
+            </div>
+        </section>
+    </div>
+    <div id="btns">
+        <form action="menu.html">
+            <button class="btn">Back</button>
+        </form>
+    </div>
+    
+    <script>
+        const socket = io();
+        const node = document.getElementById("workspace");
+        let currentSequence = [];
+        let JSONContent;
+
+        function relayInfo(element){
+            let typeIndex = element.parentNode.attributes["id"].value;
+            let index = element.id;
+
+            socket.emit("removeObj", {target:typeIndex,content:index});
+            element.remove();
+            window.location.reload()
+        }
+
+        function appendObj(){
+            if (node.getAttribute("name") == "newClr"){
+                let clrName = document.getElementById("clrName").value;
+                let r = document.getElementById("rName").value;
+                let g = document.getElementById("gName").value;
+                let b = document.getElementById("bName").value;
+
+                if(clrName==''){
+                    clrName=`Color #${Object.keys(JSONContent["colors"]).length+1}`;
+                }
+
+                socket.emit("appendObj", {target:"colors",content:{[clrName]:{"r":r,"g":g,"b":b}}})
+            }
+            if (node.getAttribute("name") == "newGrad"){
+                let gradName = document.getElementById("gradName").value;
+                let clr1 = document.getElementById("clr1Name").value;
+                let clr2 = document.getElementById("clr2Name").value;
+
+                if(gradName==''){
+                    gradName=`Gradient #${Object.keys(JSONContent["gradients"]).length+1}`;
+                }
+
+                socket.emit("appendObj", {target:"gradients",content:{[gradName]:{"color1":clr1,"color2":clr2}}})
+            }
+            if (node.getAttribute("name") == "newSeq"){
+                let seqName = document.getElementById("seqName").value;
+                let activeNode = document.getElementById("activeNode");
+
+                if(seqName==''){
+                    seqName=`Sequence #${Object.keys(JSONContent["sequences"]).length+1}`;
+                }
+
+                let dur = activeNode.querySelector("input[name='duration']").value;
+                if(dur==''){
+                    dur=200;
+                }
+
+                currentSequence.push({"color":activeNode.querySelector("select[name='clrSName']").value,"duration":dur})
+
+                socket.emit("appendObj", {target:"sequences",content:{[seqName]:currentSequence}})
+                currentSequence = [];
+            }
+
+            window.location.reload()
+        }
+
+        function createCtrButtons(){
+            const buttonsDiv = document.createElement("div");
+            buttonsDiv.style = "display: flex;"
+            node.appendChild(buttonsDiv);
+
+            const saveBtn = document.createElement("button");
+            saveBtn.setAttribute("class","btn");
+            saveBtn.setAttribute("onClick","appendObj()");
+            saveBtn.innerHTML = "Save";
+            buttonsDiv.appendChild(saveBtn);
+
+            const removeBtn = document.createElement("button");
+            removeBtn.setAttribute("class","btn");
+            removeBtn.innerHTML = "Discard";
+            removeBtn.setAttribute("onClick","window.location.reload()");
+            buttonsDiv.appendChild(removeBtn);
+        }
+
+        function addNode(){
+            let container = document.getElementById("seqContainer");
+            let lastActiveNode = document.getElementById("activeNode");
+            let lastActiveClr = lastActiveNode.querySelector('select[name="clrSName"]');
+            let lastActiveDur = lastActiveNode.querySelector('input[name="duration"]');
+
+            let dur = lastActiveDur.value;
+            if(dur==''){
+                dur=200;
+            }
+
+            currentSequence.push({"color":lastActiveClr.value,"duration":dur});
+            lastActiveNode.removeAttribute("id");
+            
+            let newActiveNode = lastActiveNode.cloneNode("true");
+            lastActiveClr.setAttribute("disabled","true");
+            lastActiveDur.setAttribute("disabled","true");
+            lastActiveNode.setAttribute("style","margin: padding:10px;");
+            newActiveNode.setAttribute("id","activeNode");
+            container.appendChild(newActiveNode);
+        }
+
+        function newClr(){
+            node.setAttribute("name","newClr");
+            let buttonsList = document.getElementsByClassName("create-btn");
+            for (const el of buttonsList){
+                el.classList.toggle("hidden");
+            }
+            
+            document.getElementById("newColor").classList.remove("hidden");
+
+            createCtrButtons();
+        }
+
+        function newGrad(){
+            node.setAttribute("name","newGrad");
+            
+            for (const el of document.getElementsByClassName("create-btn")){
+                el.classList.toggle("hidden");
+            }
+            
+            document.getElementById("newGradient").classList.remove("hidden");
+
+            createCtrButtons();
+        }
+        
+        function newSeq(){
+            node.setAttribute("name","newSeq");
+            
+            for (const el of document.getElementsByClassName("create-btn")){
+                el.classList.toggle("hidden");
+            }
+            
+            document.getElementById("newSequence").classList.remove("hidden");
+
+            createCtrButtons();
+        }
+
+        function populate(target, grads){
+            for (const clr in JSONContent["colors"]){
+                let el = document.createElement("option");
+                el.innerHTML = clr;
+                el.setAttribute("value",clr);
+
+                target.appendChild(el);
+            }
+            if (grads==true){
+                for (const clr in JSONContent["gradients"]){
+                    let el = document.createElement("option");
+                    el.innerHTML = clr;
+                    el.setAttribute("value",clr);
+    
+                    target.appendChild(el);
+                }
+            }
+        }
+
+        socket.on("populate",function(data){
+            JSONContent = data;
+            for (const category in JSONContent){
+                for (const obj in JSONContent[category]){
+                    let btn = document.createElement("button");
+                    btn.innerHTML = obj;
+                    btn.id = obj;
+
+                    let JSONobject = JSONContent[category][obj];
+                    
+                    if(category == "colors"){
+                        btn.style.borderColor = `rgb(${JSONobject.r},${JSONobject.g},${JSONobject.b})`;
+                    }
+
+                    if(category == "gradients"){
+                        let gradClr1 = JSONContent["colors"][JSONobject.color1];
+                        let gradClr2 = JSONContent["colors"][JSONobject.color2];
+                        try{
+                            btn.style.borderImage = `linear-gradient(to right,rgb(${gradClr1.r},${gradClr1.g},${gradClr1.b}),rgb(${gradClr2.r},${gradClr2.g},${gradClr2.b})) 1`;
+                        }
+                        catch{
+                            socket.emit("removeObj", {target:category,content:obj});
+                            window.location.reload()
+                        }
+                    }
+
+                    if(category=="sequences"){
+                        let gradStringArray = [];
+                        for(const part of JSONobject){
+                            if(JSONContent["gradients"][part["color"]] == null){
+                                let clr = JSONContent["colors"][part["color"]];
+                                try{
+                                    let str = `rgb(${clr.r},${clr.g},${clr.b})`
+                                    gradStringArray.push(str);
+                                }
+                                catch{
+                                    socket.emit("removeObj", {target:category,content:obj});
+                                    window.location.reload()
+                                }
+                            }
+                        }
+                        let clrString = gradStringArray.join(",");
+
+                        btn.style.borderImage = `linear-gradient(to right,${clrString}) 1`;
+                        
+                    }
+
+                    
+                    btn.setAttribute("class","button");
+                    btn.setAttribute("onClick", "relayInfo(this)");
+                    document.getElementById(category).appendChild(btn);
+                }
+            }
+            for (const dropdown of document.querySelectorAll('select')){
+            if (dropdown.name=="clrSName"){
+                populate(dropdown,true);
+            }else{
+                populate(dropdown,false);
+            }
+        }
+        });
+    </script>
 </body>
 </html>
