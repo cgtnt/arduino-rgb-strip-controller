@@ -6,6 +6,8 @@ const parsers = SerialPort.parsers;
 
 let JSONContent = JSON.parse(fs.readFileSync("appData/data.json"))
 
+console.log("Arduino LED Strip Controller \n The application is running, please do not close the console window while using the software. \n Closing the console window shuts down the program")
+
 const parser = new parsers.Readline({
     delimiter: '\r\n'
 });
@@ -42,7 +44,6 @@ let seqQueue = [];
 
 let changeColor = function(clr){
     port.write(clr.r+","+clr.g+","+clr.b);
-    console.log(clr.r+","+clr.g+","+clr.b);
 }
 
 
@@ -69,24 +70,20 @@ io.on('connection', function(socket){
         let newProp = Object.assign(JSONContent[target],content);
         JSONContent[target] = newProp;
         fs.writeFileSync("appData/data.json",JSON.stringify(JSONContent));
-        console.log(JSONContent);
     });
 
     socket.on("removeObj", function(data){
         let content = data["content"];
         let target = data["target"];
-        console.log(data);
         
         delete JSONContent[target][content];
         fs.writeFileSync("appData/data.json",JSON.stringify(JSONContent));
-        console.log(JSONContent);
     })
     
     socket.on("rgbLights", function(data){
         let JSONCategory = JSONContent[data.typeindex];
         clearInterval(currentInterval);
         colorinprogress=data.index;
-        console.log(data);
 
         if (data.typeindex=="sequences"){
             let sequence = JSONCategory[data.index];
@@ -119,7 +116,6 @@ io.on('connection', function(socket){
             let color1 = JSONContent["colors"][gradient.color1];
             let color2 = JSONContent["colors"][gradient.color2];
             
-            console.log(color1.r+","+color1.g+","+color1.b+","+"gr"+","+color2.r+","+color2.g+","+color2.b);
             port.write(color1.r+","+color1.g+","+color1.b+","+"gr"+","+color2.r+","+color2.g+","+color2.b);
         }
     });
