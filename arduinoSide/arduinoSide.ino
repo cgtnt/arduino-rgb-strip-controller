@@ -4,7 +4,7 @@ int green_light_pin = 10;
 int blue_light_pin = 11;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(red_light_pin, OUTPUT);
   pinMode(green_light_pin, OUTPUT);
   pinMode(blue_light_pin, OUTPUT);

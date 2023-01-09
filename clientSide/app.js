@@ -54,7 +54,7 @@ io.on('connection', function(socket){
         portInput = data;
 
         port = new SerialPort(portInput,function(err){if (err){return socket.emit("confirm","fail")}else{socket.emit("confirm", "success")}},{
-            bandRate: 9600,
+            bandRate: 115200,
             dataBits: 8,
             parity: 'none',
             stopBits: 1,
