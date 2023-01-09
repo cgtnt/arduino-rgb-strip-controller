@@ -1,5 +1,5 @@
 # Arduino RGB LED Strip Controller
-*Project Venera - Bozon*
+*Project Venera - UG Bozon - https://ugbozon.com/*
 
 **Node.js Controller for Arduino RGB LED Strips**
 
