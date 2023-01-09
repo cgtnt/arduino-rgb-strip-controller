@@ -77,16 +77,31 @@
         .btn:hover{
             opacity: 90%;
         }
+        .instructions{
+            margin-top: 15px;
+            margin-left: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="layout">
             <div class="inputc">
-                <label id="prompt">USB Port:</label>
+                <label id="prompt">Input USB Port:</label>
                 <br>
                 <input id="port">
                 <button class="send" onclick="relayCOMport(this)">Send</button>
+            </div>
+        </div>
+        <div class="layout" style="height: fit-content;">
+            <div class="instructions">
+                <h2>Don't know how to find USB port?</h2>
+
+                <ol style="margin: 20px;">
+                    <li>Open Control Panel > Device Manager;</li>
+                    <li>Expand the Ports section;</li>
+                    <li>See which port is being used by Arduino (e.g. COM4)</li>
+                </ol>
             </div>
         </div>
     </div>
