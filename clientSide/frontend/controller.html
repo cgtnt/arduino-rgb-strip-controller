@@ -177,9 +177,12 @@
                     if(category=="sequences"){
                         let gradStringArray = [];
                         for(const part of JSONobject){
+                            if(JSONContent["gradients"][part["color"]] == null){
                             let clr = data["colors"][part["color"]];
+                            
                             let str = `rgb(${clr.r},${clr.g},${clr.b})`
                             gradStringArray.push(str);
+                            }
                         }
                         let clrString = gradStringArray.join(",");
 
