@@ -179,19 +179,19 @@
             <button class="create-btn" onclick="newSeq()">New sequence</button>
             <form id="newColor" class="hidden">
                 <label for="clrName">Color Name:</label>
-                <input type="text" name="clrName" id="clrName" placeholder="My Color">
+                <input type="text" name="clrName" id="clrName" placeholder="My Color" maxlength="20">
                 <div style="margin: 10px">
                     <label for="rName">R:</label>
-                    <input type="number" name="rName" id="rName" placeholder="255">
+                    <input type="number" name="rName" id="rName" placeholder="255" min="0" max="255">
                     <label for="gName">G:</label>
-                    <input type="number" name="gName" id="gName" placeholder="255">
+                    <input type="number" name="gName" id="gName" placeholder="255" min="0" max="255">
                     <label for="bName">B:</label>
-                    <input type="number" name="bName" id="bName" placeholder="255">
+                    <input type="number" name="bName" id="bName" placeholder="255" min="0" max="255">
                 </div>
             </form>
             <form id="newGradient" class="hidden">
                 <label for="gradName">Gradient Name:</label>
-                <input type="text" name="gradName" id="gradName" placeholder="My Gradient">
+                <input type="text" name="gradName" id="gradName" placeholder="My Gradient" maxlength="20">
                 <div style="margin: 10px">
                     <label for="clr1Name">Color 1:</label>
                     <select name="clr1Name" id="clr1Name">
@@ -207,7 +207,7 @@
                 <div id="seqContainer">
                     <div style="margin:10px">
                         <label for="seqName">Sequence Name:</label>
-                        <input type="text" name="seqName" id="seqName" placeholder="My Sequence">
+                        <input type="text" name="seqName" id="seqName" placeholder="My Sequence" maxlength="20">
                     </div>
                     <form id="activeNode" style="border:2px solid #6c757d; padding: 10px;">
                         <label>Color/Gradient:</label>
@@ -238,9 +238,11 @@
             let typeIndex = element.parentNode.attributes["id"].value;
             let index = element.id;
 
-            socket.emit("removeObj", {target:typeIndex,content:index});
-            element.remove();
-            window.location.reload()
+            if (index!="Off"){
+                socket.emit("removeObj", {target:typeIndex,content:index});
+                element.remove();
+                window.location.reload()
+            }
         }
 
         function appendObj(){
@@ -249,6 +251,11 @@
                 let r = document.getElementById("rName").value;
                 let g = document.getElementById("gName").value;
                 let b = document.getElementById("bName").value;
+
+                if (r<0 || r>255){r=255};
+                if (g<0 || g>255){g=255};
+                if (b<0 || b>255){b=255};
+                
 
                 if(clrName==''){
                     clrName=`Color #${Object.keys(JSONContent["colors"]).length+1}`;
